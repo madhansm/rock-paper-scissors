@@ -1,9 +1,8 @@
 function computerPlay() {
     let key = Math.round(Math.random()*10);
-    console.log(key);
-    if (key <= 3) {
+    if (key <= 4) {
         return choice = 'rock';
-    } else if (key <= 6) {
+    } else if (key <= 7) {
         return choice = 'paper';
     } else {
         return choice = 'scissors'
@@ -14,64 +13,68 @@ function printChoices(p,c) {
     console.log('Player choice: ' + p);
     console.log('Computer choice: ' + c);
 }
-function gameRound() {
-    let playerSelection = window.prompt('Enter choice: ');
-    playerSelection = playerSelection.toLowerCase();
-    
-    let computerSelection = computerPlay();
-    
-    if (playerSelection === '' 
-    || (playerSelection !== 'rock' 
-    && playerSelection !== 'paper' 
-    && playerSelection !== 'scissors')) {
-        return alert ('Enter rock/paper/scissors');
-
-    } else if (playerSelection === computerSelection) {
+function gameRound(playerSelection,computerSelection) {
+       if (playerSelection === computerSelection) {
         printChoices(playerSelection, computerSelection);
-        console.log('It\'s a tie!!');
-        return alert('It\'s a tie!!');
+
 
     } else if (playerSelection === 'rock' && (computerSelection === 'paper' || computerSelection === 'scissors')) {
         printChoices(playerSelection, computerSelection);
-        console.log('Player WON!!');
         ++scorePlyaer;
-        return alert ('Player WON!!');
+        document.getElementById("playerScore").innerHTML = scorePlyaer;
+        document.getElementById("computerScore").innerHTML = scoreComputer;
 
     } else if (playerSelection === 'paper' && (computerSelection === 'rock')) {
         printChoices(playerSelection, computerSelection);
-        console.log('Player WON!!');
         ++scorePlyaer;
-        return alert ('Player WON!!');
+        document.getElementById("playerScore").innerHTML = scorePlyaer;
+        document.getElementById("computerScore").innerHTML = scoreComputer;
 
     } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
         printChoices(playerSelection, computerSelection);
-        console.log('Player WON!!');
         ++scorePlyaer;
-        return alert ('Player WON!!');
+        document.getElementById("playerScore").innerHTML = scorePlyaer;
+        document.getElementById("computerScore").innerHTML = scoreComputer;
 
     } else {
         printChoices(playerSelection, computerSelection);
-        console.log('Computer WON!!');
         ++scoreComputer;
-        return alert ('Computer WON!!');
+        document.getElementById("playerScore").innerHTML = scorePlyaer;
+        document.getElementById("computerScore").innerHTML = scoreComputer;
 
     }
 }
-let scorePlyaer = 0, scoreComputer = 0;
-for (let i = 0; i < 5; i++) {
-    if (scoreComputer !== 3 && scorePlyaer !== 3) {
-    gameRound();
-    console.log('Player: ' + scorePlyaer);
-    console.log('Computer: ' + scoreComputer);
-   }
+function playRound() {
+    if (scoreComputer <= 4 && scorePlyaer <= 4) {
+        roundCount++;
+        gameRound(this.id, computerPlay());
+        document.getElementById("roundCount").innerHTML = roundCount;
+    } 
+    else if (scoreComputer === scorePlyaer) {
+        return alert('TIE');
+    }
+    else if (scoreComputer === 5) {
+        return alert('Game won by Computer');
+    }
+    else {
+        return alert('Game won by Player');
+    }
 }
-if (scoreComputer === scorePlyaer) {
-    console.log('It\'s a tie!!');
-    alert('It\'s a tie!!');
-} else if (scorePlyaer > scoreComputer) {
-    console.log('Player WON the game!!');
-    alert ('Player WON the game!!');
-} else {
-    console.log('Computer WON the game!!');
-    alert ('Computer WON the game!!');
-}
+
+let scorePlyaer = 0, scoreComputer = 0, roundCount = 1;
+
+document.getElementById("roundCount").innerHTML = roundCount;
+
+playerScore = document.getElementById('playerScore');
+computerScore = document.getElementById('computerScore');
+
+let rock = document.getElementById('rock');
+rock.addEventListener('click', playRound);
+
+let paper = document.getElementById('paper');
+paper.addEventListener('click', playRound);
+
+let scissors = document.getElementById('scissors');
+scissors.addEventListener('click', playRound);
+
+
